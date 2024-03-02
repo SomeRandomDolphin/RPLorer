@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id                        String                @id @default(uuid()) @db.Uuid
+  name                      String                @map("nama")
+  email                     String                @unique
+  password                  String
+  permission                AdminPermission       @map("admin_permission") @default(ADMIN)
+  divisiId                  Int?                  @unique @map("divisi_id")
+  createdAt                 DateTime              @default(now()) @map("created_at")
+  updatedAt                 DateTime              @updatedAt @map("updated_at")
+
+  // relational fields   
+  divisi                    Divisi?               @relation(fields: [divisiId], references: [id])
+
+  @@map("MsAdmins")
+}
+
+model Divisi {
+  id                        Int                   @id @default(autoincrement())
+  divisiName                String                @map("nama_divisi")
+
+  // references (prisma level only)
+  admins                    Admin?
+  pilihanPertamaToForm      FormRecruitment[]                @relation("ReferPilihanPertama")
+  pilihanKeduaToForm        FormRecruitment[]                @relation("ReferPilihanKedua")
+  pilihanKetigaToForm       FormRecruitment[]                @relation("ReferPilihanKetiga")
+  divisiDiterimaToForm      FormRecruitment[]                @relation("ReferDivisiDiterima")
+  pertanyaanDivisi          PertanyaanDivisi[]
+
+  @@map("MsDivisi")              
+}
+
+model FormRecruitment {
+  id                        Int                   @id @default(autoincrement())
+  email                     String               
+  nama                      String
+  nrp                       String                @unique
+  fakultasId                Int                   @map("fakultas_id")
+  asalDepartemen            String                @map("asal_departemen")
+  ketahui                   String
+  motivasi                  String
+  inovasi                   String
+  pilihanPertama            Int                   @map("pilihan_pertama")
+  pilihanKedua              Int                   @map("pilihan_kedua")
+  pilihanKetiga             Int                   @map("pilihan_ketiga")
+  statusDiterima            Boolean               @default(false)
+  divisiDiterima            Int?                  @map("divisi_diterima") @default(-1)
+  prioritas                 String
+  linkBuktiFollow           String                @map("link_bukti_follow")
+  linkCVKreatif             String                @map("link_cv_kreatif")
+  linkKRSM                  String                @map("link_krsm")
+  pertanyaan                Json[]                @map("pertanyaan")
+  createdAt                 DateTime              @default(now())
+  
+
+  // relational fields
+  fakultas                  Fakultas              @relation("ReferFakultasId", fields: [fakultasId], references: [id])
+  pilihanPertamaFromDivisi  Divisi                @relation("ReferPilihanPertama", fields: [pilihanPertama], references: [id])  
+  pilihanKeduaFromDivisi    Divisi                @relation("ReferPilihanKedua", fields: [pilihanKedua], references: [id])   
+  pilihanKetigaFromDivisi   Divisi                @relation("ReferPilihanKetiga", fields: [pilihanKetiga], references: [id])   
+  divisiDiterimaFromDivisi  Divisi?               @relation("ReferDivisiDiterima", fields: [divisiDiterima], references: [id])  
+
+  @@map("TrFormRecruitment")
+}
+
+model PertanyaanDivisi {
+  id                        Int                   @id @default(autoincrement())
+  divisiId                  Int                   @map("divisi_id")
+  pertanyaan                String                                
+
+  // relational fields   
+  divisi                    Divisi                @relation(fields: [divisiId], references: [id])
+
+  @@map("MsPertanyaanDivisi")
+}
+
+model Fakultas {
+  id                        Int                   @id @default(autoincrement())
+  namaFakultas              String                @map("nama_fakultas")
+
+  // references (prisma level only)
+  forms                     FormRecruitment[]                @relation("ReferFakultasId")
+
+  @@map("MsFakultas")
+}
+
+model ShortenUrl {
+  id                        String                @id @default(uuid()) @db.Uuid
+  originalURL               String                @map("originalURL")
+  shortURL                  String                @map("shortURL") @unique
+  createdAt                 DateTime              @default(now()) @map("created_at")
+
+  @@map("link_shortener")
+}
+
+enum AdminPermission {
+  SUPERADMIN
+  ADMIN
+}
