@@ -8,7 +8,7 @@
 ## Quick Start
 Clone the repo:
 ```bash
-git clone https://github.com/mabacupits2023/mabacup2023-backend.git
+git clone https://github.com/SomeRandomDolphin/RPLorer.git
 ```
 
 Install the dependencies:
