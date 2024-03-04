@@ -1,10 +1,10 @@
 services:
   postgres:
-    container_name: postgres
+    container_name: postgresrpl
     image: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mabacup2023
+      - POSTGRES_DB=rplorer
     ports:
       - 5432:5432
