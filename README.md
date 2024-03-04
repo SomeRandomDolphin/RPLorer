@@ -1,4 +1,4 @@
-# Mabacup 2023 Backend
+# RPLorer Backend
 
 ## Prerequisite
 1. [Typescript](https://www.typescriptlang.org/download)
@@ -98,7 +98,7 @@ Error
 ```
 
 ## API Documentation
-Please refer to this [postman](https://documenter.getpostman.com/view/28923101/2s9Xy6ppZo#dfd6374b-9322-4424-93ef-70738ab61e44)
+Please refer to this [postman](https://documenter.getpostman.com/view/32469868/2sA2xb6bG3#5937ef69-009d-4f76-923c-7856ef88844c)
 
 ## References
 1. [setting up ts and node](https://www.digitalocean.com/community/tutorials/setting-up-a-node-project-with-typescript)  
