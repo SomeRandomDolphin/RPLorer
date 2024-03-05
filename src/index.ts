@@ -23,7 +23,7 @@ app.use("/api/staff-recruitment", staffRecruitRouter)
 
 
 app.get("/api", (_: Request, res: Response) => {
-	res.send('Mabacup 2023 API!');
+	res.send('RPLorer API!');
 })
 
 app.listen(PORT, () => {
