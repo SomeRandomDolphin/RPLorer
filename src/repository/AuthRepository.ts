@@ -1,17 +1,25 @@
-import db from "../config/connectDb"
+import db from "../config/connectDb";
 
-export const queryAdminbyDivisiId = async (adminDivisiId: number) => {
-    return await db.admin.findFirst({
-        where: {
-            divisiId: adminDivisiId
-        }
-    })
-}
+export const queryUserById = async (userId: number) => {
+  return await db.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+};
 
-export const queryAdminbyEmail = async (adminEmail: string) => {
-    return await db.admin.findUnique({
-        where: {
-            email: adminEmail
-        }
-    })
-}
+export const queryUserByEmail = async (email: string) => {
+  return await db.user.findFirst({
+    where: {
+      email: email,
+    },
+  });
+};
+
+export const queryUserByUsername = async (username: string) => {
+  return await db.user.findFirst({
+    where: {
+      username: username,
+    },
+  });
+};

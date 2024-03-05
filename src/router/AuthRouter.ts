@@ -1,10 +1,10 @@
-import { Router } from "express"
-import { loginAdmin, getAdminProfile } from "../controller/AuthController"
-import { adminAuthMiddleware } from "../middleware/AuthMiddleware"
+import { Router } from "express";
+import { loginUser, getUserProfile } from "../controller/AuthController";
+import { userAuthMiddleware } from "../middleware/AuthMiddleware";
 
-const authRouter = Router()
+const authRouter = Router();
 
-authRouter.post("/login", loginAdmin)
-authRouter.get("/me", adminAuthMiddleware, getAdminProfile)
+authRouter.post("/login", loginUser);
+authRouter.get("/me", userAuthMiddleware, getUserProfile);
 
-export default authRouter
+export default authRouter;

@@ -1,41 +1,41 @@
 import { Request, Response } from "express";
 import { loginSchema } from "../Utils/Validation";
-import Joi from "joi"
+import Joi from "joi";
 import { LoginRequest } from "../model/AuthModel";
 import { responseData, responseError } from "../Utils/API-Response";
 import { StatusCodes } from "http-status-codes";
-import * as AuthService from "../service/AuthService" 
-import { AdminToken } from "../middleware/AuthMiddleware";
+import * as AuthService from "../service/AuthService";
+import { UserToken } from "../middleware/AuthMiddleware";
 
-export const loginAdmin = async (req: Request, res: Response) => {
-    const { 
-        error,
-        value
-    } : {
-        error: Joi.ValidationError,
-        value: LoginRequest
-    } = loginSchema.validate(req.body, {abortEarly: false})
+export const loginUser = async (req: Request, res: Response) => {
+  const {
+    error,
+    value,
+  }: {
+    error: Joi.ValidationError;
+    value: LoginRequest;
+  } = loginSchema.validate(req.body, { abortEarly: false });
 
-    if(error){
-        responseError(res, error)
-        return
-    }
+  if (error) {
+    responseError(res, error);
+    return;
+  }
 
-    try{
-        const tokens = await AuthService.loginAdmin(value)
-        responseData(res, StatusCodes.OK, "Login Successful", tokens)
-    } catch(err){
-        responseError(res, err)
-    }
-}
+  try {
+    const tokens = await AuthService.loginUser(value);
+    responseData(res, StatusCodes.OK, "Login Successful", tokens);
+  } catch (err) {
+    responseError(res, err);
+  }
+};
 
-export const getAdminProfile = async (req: Request, res: Response) => {
-    const {divisiId} = (req as AdminToken).user
+export const getUserProfile = async (req: Request, res: Response) => {
+  const { username } = (req as UserToken).user;
 
-    try{
-        const data = await AuthService.adminProfile(divisiId)
-        responseData(res, StatusCodes.OK, "success", data)
-    }catch(err){
-        responseError(res, err)
-    }
-}
+  try {
+    const data = await AuthService.userProfile(username);
+    responseData(res, StatusCodes.OK, "Profile Retrieved Successfully", data);
+  } catch (err) {
+    responseError(res, err);
+  }
+};
