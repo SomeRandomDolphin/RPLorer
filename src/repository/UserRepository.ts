@@ -8,8 +8,18 @@ export const createUser = async (
   emailInput: string,
   passwordInput: string,
 ) => {
+  const mostRecentId = await db.user.findFirst({
+    select: {
+      id: true,
+    },
+    orderBy: {
+      id: "desc",
+    },
+  });
+
   const user = await db.user.create({
     data: {
+      id: mostRecentId.id + 1,
       username: usernameInput,
       email: emailInput,
       password: bcrypt.hashSync(passwordInput, env.HASH_SALT),
