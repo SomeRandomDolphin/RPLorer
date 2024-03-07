@@ -13,12 +13,12 @@ import {
 export const registerUser = async (data: UserRequest) => {
   const isRegistedUsername = await queryUserDetailbyUsername(data.username);
   if (isRegistedUsername) {
-    throw new CustomError(StatusCodes.BAD_REQUEST, "Username telah terdaftar");
+    throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid User");
   }
 
   const isRegisteredEmail = await queryUserDetailbyEmail(data.email);
   if (isRegisteredEmail) {
-    throw new CustomError(StatusCodes.BAD_REQUEST, "Email telah terdaftar");
+    throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid Email");
   }
 
   const user = await createUser(data.username, data.email, data.password);

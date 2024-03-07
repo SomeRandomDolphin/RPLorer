@@ -32,7 +32,7 @@ export const userProfile = async (userUsername: string) => {
   const user = await queryUserByUsername(userUsername);
 
   if (!user) {
-    throw new CustomError(StatusCodes.NOT_FOUND, "User not found");
+    throw new CustomError(StatusCodes.NOT_FOUND, "Invalid User");
   }
 
   delete user.password;
