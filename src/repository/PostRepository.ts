@@ -29,7 +29,7 @@ export const queryPostbyID = async (idInput: number) => {
   const post = await db.post.findUnique({
     where: {
       id: idInput,
-    }
+    },
   });
 
   return {
@@ -48,10 +48,10 @@ export const queryPostbyUserID = async (userIdInput: number) => {
   const posts = await db.post.findMany({
     where: {
       userId: userIdInput,
-    }
+    },
   });
 
-  const formattedPosts = posts.map(post => ({
+  const formattedPosts = posts.map((post) => ({
     id: post.id,
     title: post.title,
     content: post.content,
@@ -68,7 +68,7 @@ export const queryPostbyUserID = async (userIdInput: number) => {
 export const queryAllPost = async () => {
   const posts = await db.post.findMany();
 
-  const formattedPosts = posts.map(post => ({
+  const formattedPosts = posts.map((post) => ({
     id: post.id,
     title: post.title,
     content: post.content,
@@ -109,23 +109,28 @@ export const removePost = async (postId: number) => {
   return await queryPostbyID(postId);
 };
 
-export const queryLikebyUserPost = async (userIdInput: number, postIdInput: number) => {
+export const queryLikebyUserPost = async (
+  userIdInput: number,
+  postIdInput: number,
+) => {
   const like = await db.like.findFirst({
     where: {
       userId: userIdInput,
       postId: postIdInput,
-    }
+    },
   });
 
   return like;
 };
 
-export const updateLikeCount = async (userIdInput: number, postIdInput: number) => {
+export const updateLikeCount = async (
+  userIdInput: number,
+  postIdInput: number,
+) => {
   const currentData = await queryPostbyID(postIdInput);
   const currentLike = await queryLikebyUserPost(userIdInput, postIdInput);
 
-  if(!currentLike)
-  {
+  if (!currentLike) {
     const mostRecentId = await db.like.findFirst({
       select: {
         id: true,
@@ -134,7 +139,7 @@ export const updateLikeCount = async (userIdInput: number, postIdInput: number) 
         id: "desc",
       },
     });
-  
+
     await db.like.create({
       data: {
         id: mostRecentId.id + 1,
@@ -142,7 +147,7 @@ export const updateLikeCount = async (userIdInput: number, postIdInput: number) 
         postId: postIdInput,
       },
     });
-  
+
     await db.post.update({
       where: {
         id: postIdInput,
@@ -151,13 +156,11 @@ export const updateLikeCount = async (userIdInput: number, postIdInput: number) 
         like: currentData.like + 1,
       },
     });
-  }
-  else
-  {
+  } else {
     await db.like.delete({
       where: {
-        id: currentLike.id
-      }
+        id: currentLike.id,
+      },
     });
 
     await db.post.update({
@@ -169,6 +172,6 @@ export const updateLikeCount = async (userIdInput: number, postIdInput: number) 
       },
     });
   }
-  
+
   return await queryPostbyID(postIdInput);
 };

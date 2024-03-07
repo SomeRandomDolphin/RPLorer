@@ -26,47 +26,47 @@ async function seedUsers() {
 }
 
 async function seedPosts() {
-    posts.forEach(async (post) => {
-      await db.post.upsert({
-        where: {
-          id: post.id,
-        },
-        update: {
-          id: post.id,
-          title: post.title,
-          content: post.content,
-          like: post.like,
-          userId: post.user_id,
-        },
-        create: {
-            id: post.id,
-            title: post.title,
-            content: post.content,
-            like: post.like,
-            userId: post.user_id,
-        },
-      });
+  posts.forEach(async (post) => {
+    await db.post.upsert({
+      where: {
+        id: post.id,
+      },
+      update: {
+        id: post.id,
+        title: post.title,
+        content: post.content,
+        like: post.like,
+        userId: post.user_id,
+      },
+      create: {
+        id: post.id,
+        title: post.title,
+        content: post.content,
+        like: post.like,
+        userId: post.user_id,
+      },
     });
+  });
 }
 
 async function seedLikes() {
-    likes.forEach(async (like) => {
-      await db.like.upsert({
-        where: {
-          id: like.id,
-        },
-        update: {
-          id: like.id,
-          postId: like.post_id,
-          userId: like.user_id,
-        },
-        create: {
-            id: like.id,
-            postId: like.post_id,
-            userId: like.user_id,
-        },
-      });
+  likes.forEach(async (like) => {
+    await db.like.upsert({
+      where: {
+        id: like.id,
+      },
+      update: {
+        id: like.id,
+        postId: like.post_id,
+        userId: like.user_id,
+      },
+      create: {
+        id: like.id,
+        postId: like.post_id,
+        userId: like.user_id,
+      },
     });
+  });
 }
 
 async function main() {

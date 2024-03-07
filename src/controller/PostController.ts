@@ -87,11 +87,7 @@ export const updatePost = async (req: Request, res: Response) => {
   try {
     const { username } = (req as UserToken).user;
     const postId = Number(req.params.post_id);
-    const updatedPost = await PostService.updatePost(
-      postId,
-      value,
-      username,
-    );
+    const updatedPost = await PostService.updatePost(postId, value, username);
     responseData(res, StatusCodes.OK, "Post Updated", updatedPost);
   } catch (err) {
     responseError(res, err);

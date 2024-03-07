@@ -10,22 +10,18 @@ import {
   editPost,
   removePost,
 } from "../repository/PostRepository";
-import { queryUserDetailbyID, queryUserDetailbyUsername } from "../repository/UserRepository";
+import {
+  queryUserDetailbyID,
+  queryUserDetailbyUsername,
+} from "../repository/UserRepository";
 
-export const registerPost = async (
-  data: PostRequest,
-  userUsername: string,
-) => {
+export const registerPost = async (data: PostRequest, userUsername: string) => {
   const user = await queryUserDetailbyUsername(userUsername);
   if (!user) {
     throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid User");
   }
-  
-  const post = await createPost(
-    data.title,
-    data.content,
-    user.id,
-  );
+
+  const post = await createPost(data.title, data.content, user.id);
 
   if (!post) {
     throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid Post");
