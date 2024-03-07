@@ -27,7 +27,7 @@ model Post {
   id                        Int                   @id @default(autoincrement())
   title                     String                
   content                   String                
-  like                      Int
+  like                      Int                   @default(0)
   userId                    Int                   @map("user_id")
   createdAt                 DateTime              @default(now()) @map("created_at")
   updatedAt                 DateTime?             @updatedAt @map("updated_at")
